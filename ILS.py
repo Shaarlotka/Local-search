@@ -1,5 +1,5 @@
 import math
-from random import randint
+from random import randint, randrange
 
 def greedy_algorithm_tsp(pure_ids, distances):
     temp = dict(item for item in distances.items())
@@ -48,8 +48,8 @@ def perturbation(solution):
     new_solution = solution
     i, j = 0, 0
     while (i == j):
-        i = randint(1, len(solution) - 1)
-        j = randint(1, len(solution) - 1)
+        i = randrange(1, len(solution) - 1, 1)
+        j = randrange(1, len(solution) - 1, 1)
     new_solution[i], new_solution[j] = new_solution[j], new_solution[i]
     return new_solution
 
@@ -95,7 +95,7 @@ def ILS(ids, distances):
 
 if __name__ == "__main__":
     vert = {0: [2, 5], 1: [23, 3], 2: [3, 8], 3: [4, 15], 4: [35, 13], 5: [23,54], 6: [54,6], 7: [5,8],
-            8: [2, 5], 9: [1, 7], 10: [12, 3], 11: [9, 5]}
+            8: [2, 5], 9: [1, 7], 10: [12, 3], 11: [9, 5], 12: [0, 0], 13: [13, 4], 14: [32, 13], 15: [2, 7]}
     ids, distances = euclid_cout_distace(vert)
     tmp = ILS(ids, distances)
     print(tmp, calculate_route_length(tmp, distances))
