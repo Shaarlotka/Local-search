@@ -28,13 +28,23 @@ def greedy_algorithm_tsp(pure_ids, distances):
     return solution
 
 def calculate_route(solution, distances):
+    print(solution)
     sum = 0
     for i in range(len(solution) - 1):
         if not (solution[i], solution[i + 1]) in distances:
             sum += distances[solution[i + 1], solution[i]]
         else:
             sum += distances[solution[i], solution[i + 1]]
+    print(sum)
     return sum
+
+def swap_2_opt(current_solution, i, k):
+    new_solution = list()
+    new_solution.append(current_solution[:i])
+    for j in reversed(range(i, k + 1)):
+        new_solution.append(current_solution[j])
+    new_solution.append(current_solution[k + 1:])
+    return new_solution
 
 def two_opt_swap(solution, i, j):
     solution[i], solution[j] = solution[j], solution[i]
@@ -64,8 +74,7 @@ def euclid_cout_distace(vert):
 
 
 if __name__ == "__main__":
-    vert = {0: [2, 5], 1: [23, 3], 2: [3, 8], 3: [4, 15]}
+    vert = {0: [2, 5], 1: [23, 3], 2: [3, 8], 3: [4, 15], 4: [35, 13], 5: [23,54], 6: [54,6], 7: [5,8]}
     ids, distances = euclid_cout_distace(vert)
     solution = greedy_algorithm_tsp(ids, distances)
-    print(solution, calculate_route(solution, distances))
     new_solution = two_opt(solution, distances)
