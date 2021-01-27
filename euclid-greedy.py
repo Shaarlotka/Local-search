@@ -5,9 +5,7 @@ def greedy_algorithm_tsp(pure_ids, distances):
     temp_list = [pure_ids[i+1] for i in range(len(pure_ids) - 1)]
     solution = list()
     i = pure_ids[0]
-    solution.append(i)
     while temp_list:
-        print(solution)
         min_dist_key = (i, temp_list[0])
         min_dist = max(temp.values())
         temp_for_temp = [key for key in temp.keys()]
@@ -20,12 +18,13 @@ def greedy_algorithm_tsp(pure_ids, distances):
         j = 0
         while True:
             if min_dist_key[j] != i:
-                i = min_dist_key[j]
+                j = min_dist_key[j]
+                solution.append([i, j])
+                i = j
                 break
             j += 1
         temp_list.remove(i)
-        solution.append(i)
-    solution.append(pure_ids[0])
+    solution.append([i, pure_ids[0]])
 
     return solution
 
@@ -44,6 +43,7 @@ def euclid_counts_distance(vertexes):
 
 
 def opt_2(solution, pure_ids, ):
+
     return
 
 
