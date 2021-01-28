@@ -25,7 +25,6 @@ def greedy_algorithm_tsp(pure_ids, distances):
             j += 1
         temp_list.remove(i)
         solution.append(i)
-    solution.append(pure_ids[0])
 
     return solution
 
@@ -42,6 +41,18 @@ def euclid_counts_distance(vertexes):
     return pure_ids, distances
 
 
+def calculate_route(solution, distances):
+    sum = 0
+    i = 0
+    for i in range(len(solution) - 1):
+        if not (solution[i], solution[i + 1]) in distances:
+            sum += distances[solution[i + 1], solution[i]]
+        else:
+            sum += distances[solution[i], solution[i + 1]]
+    sum += distances[solution[0], solution[i + 1]]
+    return sum
+
+
 def swap_2_opt(current_solution, i, k):
     new_solution = list()
     for j in range(i):
@@ -54,11 +65,15 @@ def swap_2_opt(current_solution, i, k):
     return new_solution
 
 
-if __name__ == '__main__':
-    vertexes = {0: [4, 5], 1: [2, 3], 2: [0, 8]}
-    pure_ids, distances = euclid_counts_distance(vertexes)
-    print(pure_ids)
-    for i in distances.items():
-        print(i)
-    solution = greedy_algorithm_tsp(pure_ids, distances)
-    print(swap_2_opt(solution, 1, 2))
+def two_opt(solution, distances):
+    route = calculate_route(solution, distances)
+    for i in range(1, len(solution) - 1):
+        for j in range(i + 1, len(solution)):
+            new_solution = swap_2_opt(solution, i, j)
+            new_route = calculate_route(new_solution, distances)
+            print("In 2opt", new_solution, new_route)
+            if (new_route < route):
+                solution = new_solution
+                route = new_route
+    return solution
+
