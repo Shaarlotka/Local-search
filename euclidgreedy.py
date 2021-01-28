@@ -71,9 +71,16 @@ def two_opt(solution, distances):
         for j in range(i + 1, len(solution)):
             new_solution = swap_2_opt(solution, i, j)
             new_route = calculate_route(new_solution, distances)
-            print("In 2opt", new_solution, new_route)
+            #print("In 2opt", new_solution, new_route)
             if (new_route < route):
                 solution = new_solution
                 route = new_route
     return solution
 
+
+def convert(times):
+    vertexes = dict()
+    for i in range(times):
+        temp = input().split(' ')
+        vertexes[int(temp[0])] = [int(temp[1]), int(temp[2])]
+    return vertexes
