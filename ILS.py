@@ -1,5 +1,5 @@
 import math
-from random import randint, randrange
+from random import randint
 
 def greedy_algorithm_tsp(pure_ids, distances):
     temp = dict(item for item in distances.items())
@@ -35,7 +35,10 @@ def calculate_route_length(solution, distances):
             length += distances[solution[i + 1], solution[i]]
         else:
             length += distances[solution[i], solution[i + 1]]
-    length += distances[solution[0], solution[i + 1]]
+    if (solution[0] > solution[i + 1]):
+        length += distances[solution[i + 1], solution[0]]
+    else:
+        length += distances[solution[0], solution[i + 1]]
     return length
 
 
@@ -45,17 +48,14 @@ def two_opt_swap(solution, i, j):
 
 
 def perturbation(solution):
-    new_solution = solution
-    i, j = 0, 0
-    while (i == j):
-        i = randrange(1, len(solution) - 1, 1)
-        j = randrange(1, len(solution) - 1, 1)
-    new_solution[i], new_solution[j] = new_solution[j], new_solution[i]
-    return new_solution
+    i = randint(0, len(solution) - 1)
+    j = randint(0, len(solution) - 1)
+    solution[i], solution[j] = solution[j], solution[i]
+    return solution
 
 
 def two_opt(solution, distances, route_length):
-    for i in range(1, len(solution) - 1):
+    for i in range(len(solution)):
         for j in range(i + 1, len(solution)):
             new_solution = two_opt_swap(solution, i, j)
             new_route_length = calculate_route_length(new_solution, distances)
@@ -93,9 +93,16 @@ def ILS(ids, distances):
     return solution
 
 
+def convert(num):
+    vert = dict()
+    for i in range(num):
+        temp = input().split(' ')
+        vert[int(temp[0])] = [int(temp[1]), int(temp[2])]
+    return vert
+
+
 if __name__ == "__main__":
-    vert = {0: [2, 5], 1: [23, 3], 2: [3, 8], 3: [4, 15], 4: [35, 13], 5: [23,54], 6: [54,6], 7: [5,8],
-            8: [2, 5], 9: [1, 7], 10: [12, 3], 11: [9, 5], 12: [0, 0], 13: [13, 4], 14: [32, 13], 15: [2, 7]}
+    vert = convert(int(input()))
     ids, distances = euclid_cout_distace(vert)
     tmp = ILS(ids, distances)
-    print(tmp, calculate_route_length(tmp, distances))
+    for i in tmp: print(i, end = " ")
