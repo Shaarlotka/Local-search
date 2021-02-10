@@ -39,6 +39,5 @@ def GDNS():
             k += 1
     return final_solution
 
-
 if __name__ == "__main__":
     pass
